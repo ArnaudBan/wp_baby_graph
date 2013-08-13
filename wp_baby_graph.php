@@ -22,6 +22,9 @@ function abwbg_add_scripts(){
 add_action( 'wp_enqueue_scripts', 'abwbg_add_scripts');
 
 function abwbg_register_baby_stage() {
+
+  global $baby_measures_scripts;
+
   $labels = array(
     'name'                => __('Baby stages', 'baby_graph'),
     'singular_name'       => __('Baby stage', 'baby_graph'),
