@@ -9,6 +9,9 @@ Author URI: http://arnaudban.me
 License: GPL2
 */
 
+// Add the shortcodes
+require_once( 'wbg_shortcode.php' );
+
 function abwbg_register_baby_stage() {
   $labels = array(
     'name'                => __('Baby stages', 'baby_graph'),
@@ -27,18 +30,18 @@ function abwbg_register_baby_stage() {
   );
 
   $args = array(
-    'label'              => 'Baby stages',
-    'labels'             => $labels,
-    'description'        => __('Add new baby measures associate to a date', 'baby_graph'),
-    'exclude_from_search'=> true,
-    'publicly_queryable' => false,
-    'show_ui'            => true,
-    'show_in_nav_menus'  => false,
-    'query_var'          => 'false',
-    'capability_type'    => 'post',
-    'has_archive'        => false,
-    'hierarchical'       => false,
-    'supports'           => array( 'title', 'excerpt' ),
+    'label'                => 'Baby stages',
+    'labels'               => $labels,
+    'description'          => __('Add new baby measures associate to a date', 'baby_graph'),
+    'exclude_from_search'  => true,
+    'publicly_queryable'   => false,
+    'show_ui'              => true,
+    'show_in_nav_menus'    => false,
+    'query_var'            => 'false',
+    'capability_type'      => 'post',
+    'has_archive'          => false,
+    'hierarchical'         => false,
+    'supports'             => array( 'title', 'excerpt' ),
     'register_meta_box_cb' => 'abwbg_add_baby_stage_metabox',
   );
 
