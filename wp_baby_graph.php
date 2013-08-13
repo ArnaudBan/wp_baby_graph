@@ -12,6 +12,15 @@ License: GPL2
 // Add the shortcodes
 require_once( 'wbg_shortcode.php' );
 
+
+// Add js
+function abwbg_add_scripts(){
+
+  wp_register_script( 'google_sharts', 'https://www.google.com/jsapi', array(), '', true );
+  wp_register_script( 'abwbg_scripts', plugins_url( '/js/scripts.js', __FILE__), array('google_sharts'), '20130813', true );
+}
+add_action( 'wp_enqueue_scripts', 'abwbg_add_scripts');
+
 function abwbg_register_baby_stage() {
   $labels = array(
     'name'                => __('Baby stages', 'baby_graph'),
