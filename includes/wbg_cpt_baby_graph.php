@@ -117,3 +117,19 @@ function abwbg_save_baby_graph_meta( $post_id ){
 
 }
 add_action( 'save_post', 'abwbg_save_baby_graph_meta' );
+
+// Custom column
+function abwbg_add_baby_graph_columns($columns){
+  return array_merge($columns, array('shortcode' => __('Shortcode') ) );
+}
+add_filter('manage_baby_graph_posts_columns' , 'abwbg_add_baby_graph_columns');
+
+
+function abwbg_baby_graph_custom_columns( $column, $post_id ) {
+  switch ( $column ) {
+  case 'shortcode' :
+    echo "[baby_graph id='$post_id']";
+    break;
+  }
+}
+add_action( 'manage_baby_graph_posts_custom_column' , 'abwbg_baby_graph_custom_columns', 10, 2 );
