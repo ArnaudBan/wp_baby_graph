@@ -15,12 +15,14 @@ function abwbg_display_baby_stage( $attr ){
     if( $baby_measures && is_array( $baby_measures ) ){
       $measures_table = '<table>';
       foreach ($baby_measures as $key => $num) {
+        $baby_graph_meta = get_post_meta( $key, 'abwbg_baby_graph', true );
+
         $measures_table .= '<tr>';
         $measures_table .= '<th>';
-        $measures_table .= abwbg_get_label_baby_measures( $key );
+        $measures_table .= $baby_graph_meta['value'];
         $measures_table .= '</th>';
         $measures_table .= '<td>';
-        $measures_table .= $num .' '. abwbg_get_unit_baby_measures( $key );
+        $measures_table .= $num .' '. $baby_graph_meta['unit'];
         $measures_table .= '</td>';
         $measures_table .= '</tr>';
       }
