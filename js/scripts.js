@@ -11,7 +11,7 @@ function drawChart() {
     var date;
     for( var key in measures ){
       date = measures[key][0].split(',');
-      measures[key][0] =  new Date( date[0], date[1], date[2] );
+      measures[key][0] =  new Date( date[0], ( date[1] - 1 ), date[2] );
     }
 
     var dataTable = new google.visualization.DataTable();
