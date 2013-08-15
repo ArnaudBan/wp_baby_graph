@@ -2,17 +2,35 @@ google.load("visualization", "1", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 
 function drawChart() {
-  jQuery('.google-graph').each(function(){
-    console.log( jQuery(this).data('measures'));
+  jQuery('.abwbg-google-graph').each(function(){
+
+    var $slug =  jQuery(this).data('measures');
+
+    // Date format
+    var measures = baby_measures_data[$slug].data;
+    var date;
+    for( var key in measures ){
+      date = measures[key][0].split(',');
+      measures[key][0] =  new Date( date[0], date[1], date[2] );
+    }
+
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn('date', baby_measures_data.date);
+    dataTable.addColumn('number', baby_measures_data[$slug].value);
+    dataTable.addColumn({type: 'string', role: 'tooltip'});
+    dataTable.addRows( measures );
+
+    var data = new google.visualization.DataView(dataTable);
+
+    var options = {
+      title: baby_measures_data[$slug].title,
+      curveType: "function",
+      vAxis: {
+        format:'#,## ' + baby_measures_data[$slug].unit
+      }
+    };
+
+    var chart = new google.visualization.LineChart(jQuery(this)[0]);
+    chart.draw(data, options);
   });
-  var data = google.visualization.arrayToDataTable(
-    baby_measures_data.data
-  );
-
-  var options = {
-    title: baby_measures_data.title
-  };
-
-  var chart = new google.visualization.LineChart(document.getElementById( baby_measures_data.id));
-  chart.draw(data, options);
 }
