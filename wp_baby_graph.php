@@ -9,6 +9,7 @@ Author URI: http://arnaudban.me
 License: GPL2
 */
 
+
 // Add the shortcodes
 require_once( 'wbg_shortcode.php' );
 
@@ -21,6 +22,11 @@ function abwbg_add_scripts(){
 }
 add_action( 'wp_enqueue_scripts', 'abwbg_add_scripts');
 
+
+/**
+ * Add custom post type 'baby_stage'
+ *
+ */
 function abwbg_register_baby_stage() {
 
   global $baby_measures_scripts;
@@ -61,11 +67,22 @@ function abwbg_register_baby_stage() {
 }
 add_action( 'init', 'abwbg_register_baby_stage' );
 
+
+/**
+ * Add meta box to baby_stage UI
+ *
+ */
 function abwbg_add_baby_stage_metabox(){
   add_meta_box( 'abwbg_baby_stage_metabox', 'Baby Measures', 'abwbg_baby_stage_metabox_content', 'baby_stage' );
 }
 
 
+/**
+ * baby_stage metabox content
+ *
+ * @param  object $post The WordPress post Object
+ *
+ */
 function abwbg_baby_stage_metabox_content( $post ){
 
   // Use nonce for verification
@@ -92,6 +109,13 @@ function abwbg_baby_stage_metabox_content( $post ){
   <?php
 }
 
+
+/**
+ * Save baby_stage metabox param
+ *
+ * @param  int $post_id id of the current baby_stage
+ *
+ */
 function abwbg_save_baby_stage_meta( $post_id ){
 
   if ( ! current_user_can( 'edit_post', $post_id ) )
