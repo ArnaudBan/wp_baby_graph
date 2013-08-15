@@ -81,11 +81,20 @@ function abwbg_baby_stage_metabox_content( $post ){
       <?php
       while ( $all_baby_graph->have_posts() ) {
         $all_baby_graph->the_post();
+
+        $baby_graph_meta = get_post_meta( get_the_ID(), 'abwbg_baby_graph', true );
         $the_id = get_the_ID();
         ?>
         <tr>
-          <td><label for="abwbg_baby_<?php echo $the_id; ?>"><?php the_title(); ?></label></td>
-          <td><input type="number" step="0.01" id="abwbg_baby_<?php echo $the_id; ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>]" value="<?php if( isset($baby_measures[$the_id]) ) esc_attr_e($baby_measures[$the_id]) ?>" /></td>
+          <td>
+            <label for="abwbg_baby_<?php echo $the_id; ?>">
+              <?php echo ( $baby_graph_meta && isset($baby_graph_meta['value']) ) ? $baby_graph_meta['value'] : get_the_title(); ?>
+            </label>
+          </td>
+          <td>
+            <input type="number" step="0.01" id="abwbg_baby_<?php echo $the_id; ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>]" value="<?php if( isset($baby_measures[$the_id]) ) esc_attr_e($baby_measures[$the_id]) ?>" />
+            <span><?php if( $baby_graph_meta && isset($baby_graph_meta['unit']) ) echo $baby_graph_meta['unit']; ?></span>
+          </td>
         </tr>
         <?php
       }
