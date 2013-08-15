@@ -26,3 +26,32 @@ function abwbg_add_scripts(){
 }
 add_action( 'wp_enqueue_scripts', 'abwbg_add_scripts');
 
+
+// Add content to the "right now" dashboard widget
+add_action('right_now_content_table_end', 'abwbg_add_baby_graph_cpt_to_right_now_widget');
+
+function abwbg_add_baby_graph_cpt_to_right_now_widget() {
+
+  $post_type_to_add = array( 'baby_stage', 'baby_graph' );
+
+  foreach ($post_type_to_add as $post_type) {
+
+    if ( post_type_exists( $post_type ) ) {
+
+      $num_posts = wp_count_posts( $post_type );
+      $num = number_format_i18n( $num_posts->publish );
+      $labels = get_post_type_object( $post_type );
+      $text = _n( $labels->labels->singular_name, $labels->labels->name, intval($num_posts->publish) );
+      if ( current_user_can( 'edit_posts' ) ) {
+          $num = "<a href='edit.php?post_type=$post_type'>$num</a>";
+          $text = "<a href='edit.php?post_type=$post_type'>$text</a>";
+      }
+      echo '<tr>';
+      echo "<td class='first b b-$post_type'>$num</td>";
+      echo "<td class='t $post_type'>$text</td>";
+      echo '</tr>';
+    }
+  }
+
+}
+?>
