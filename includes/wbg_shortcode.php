@@ -72,11 +72,16 @@ function abwbg_get_graphe( $id ){
       $all_baby_measures->the_post();
       $baby_measures = get_post_meta( get_the_ID(), 'abwbg_baby_measures', true );
 
+      $tooltip = '<div style="padding:1px 5px;"><h2 style="font-size:1em;font-weight:bold;">' .get_the_title() .'</h2>';
+      if( get_the_excerpt() != '')
+        $tooltip .= get_the_excerpt() .'</br>';
+      $tooltip .=  get_the_date() . ' : <strong>' . $baby_measures[$id]. ' '. $baby_graph_meta['unit'] . '</strong></div>';
+
       if( isset($baby_measures[$id]) )
         $baby_measures_scripts[$id]['data'][] = array(
           get_the_date('Y,m,d'),
           $baby_measures[$id],
-          get_the_date() . ' : ' . $baby_measures[$id]. ' '. $baby_graph_meta['unit']
+          $tooltip
         );
     }
     wp_reset_postdata();

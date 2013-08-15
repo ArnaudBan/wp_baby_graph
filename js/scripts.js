@@ -17,7 +17,7 @@ function drawChart() {
     var dataTable = new google.visualization.DataTable();
     dataTable.addColumn('date', baby_measures_data.date);
     dataTable.addColumn('number', baby_measures_data[$slug].value);
-    dataTable.addColumn({type: 'string', role: 'tooltip'});
+    dataTable.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
     dataTable.addRows( measures );
 
     var data = new google.visualization.DataView(dataTable);
@@ -25,6 +25,7 @@ function drawChart() {
     var options = {
       title: baby_measures_data[$slug].title,
       curveType: "function",
+      tooltip: {isHtml: true},
       vAxis: {
         format:'#,## ' + baby_measures_data[$slug].unit
       }
