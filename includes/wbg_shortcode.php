@@ -67,6 +67,8 @@ function abwbg_get_graphe( $id ){
     $baby_measures_scripts[$id]['title'] = $baby_graph->post_title;
     $baby_measures_scripts[$id]['value'] = $baby_graph_meta['value'];
     $baby_measures_scripts[$id]['unit'] = $baby_graph_meta['unit'];
+    $baby_measures_scripts[$id]['color'] = $baby_graph_meta['color'];
+
 
     while ($all_baby_measures->have_posts() ) {
       $all_baby_measures->the_post();

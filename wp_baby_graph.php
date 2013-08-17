@@ -22,9 +22,14 @@ require_once( 'includes/wbg_cpt_baby_stage.php' );
 function abwbg_add_scripts(){
 
   wp_register_script( 'google_sharts', 'https://www.google.com/jsapi', array(), '', true );
-  wp_register_script( 'abwbg_scripts', plugins_url( '/js/scripts.js', __FILE__), array('google_sharts'), '20130813', true );
+  wp_register_script( 'abwbg_scripts', plugins_url( '/js/scripts.js', __FILE__), array('google_sharts', 'jquery'), '20130813', true );
 }
 add_action( 'wp_enqueue_scripts', 'abwbg_add_scripts');
+
+function abwbg_add_admin_scripts(){
+  wp_register_script( 'abwbg_admin_scripts', plugins_url( '/js/admin.js', __FILE__), array('jquery', 'wp-color-picker'), '20130817', true );
+}
+add_action( 'admin_enqueue_scripts', 'abwbg_add_admin_scripts');
 
 
 // Add content to the "right now" dashboard widget

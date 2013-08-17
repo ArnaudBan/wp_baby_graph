@@ -63,6 +63,10 @@ function abwbg_add_baby_graph_metabox(){
  */
 function abwbg_baby_graph_metabox_content( $post ){
 
+  // Add script
+  wp_enqueue_style('wp-color-picker');
+  wp_enqueue_script('abwbg_admin_scripts');
+
   // Use nonce for verification
   wp_nonce_field( plugin_basename( __FILE__ ), 'abwbg_baby_graph_metabox' );
 
@@ -80,11 +84,19 @@ function abwbg_baby_graph_metabox_content( $post ){
   		</td>
   	</tr>
   	<tr>
+      <th>
+        <label for="abwbg_baby_graph_unit"><?php _e('Unit', 'baby_graph' )?></label>
+      </th>
+      <td>
+        <input type="text" id="abwbg_baby_graph_unit" name="abwbg_baby_graph[unit]" value="<?php if( isset($baby_graph['unit']) ) esc_attr_e($baby_graph['unit']) ?>" />
+      </td>
+    </tr>
+    <tr>
   		<th>
-				<label for="abwbg_baby_graph_unit"><?php _e('Unit', 'baby_graph' )?></label>
+				<label for="abwbg_baby_graph_color"><?php _e('color', 'baby_graph' )?></label>
   		</th>
   		<td>
-  			<input type="text" id="abwbg_baby_graph_unit" name="abwbg_baby_graph[unit]" value="<?php if( isset($baby_graph['unit']) ) esc_attr_e($baby_graph['unit']) ?>" />
+  			<input type="text" id="abwbg_baby_graph_color" name="abwbg_baby_graph[color]" value="<?php if( isset($baby_graph['color']) ) esc_attr_e($baby_graph['color']) ?>" />
   		</td>
   	</tr>
   </table>

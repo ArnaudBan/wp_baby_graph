@@ -24,12 +24,18 @@ function drawChart() {
 
     var options = {
       title: baby_measures_data[$slug].title,
+      pointSize: 5,
       curveType: "function",
       tooltip: {isHtml: true},
       vAxis: {
         format:'#,## ' + baby_measures_data[$slug].unit
       }
     };
+
+    // Si il y a une couleur de définie on la rajout
+    if( baby_measures_data[$slug].color ){
+      options.colors = [ baby_measures_data[$slug].color ];
+    }
 
     var chart = new google.visualization.LineChart(jQuery(this)[0]);
     chart.draw(data, options);
