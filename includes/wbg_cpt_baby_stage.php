@@ -92,7 +92,21 @@ function abwbg_baby_stage_metabox_content( $post ){
             </label>
           </td>
           <td>
-            <input type="number" step="0.01" id="abwbg_baby_<?php echo $the_id; ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>]" value="<?php if( isset($baby_measures[$the_id]) ) esc_attr_e($baby_measures[$the_id]) ?>" />
+            <input type="number" step="0.01" id="abwbg_baby_<?php echo $the_id; ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>][value]" value="<?php if( isset($baby_measures[$the_id]['value']) ) esc_attr_e($baby_measures[$the_id]['value']) ?>" />
+            <span><?php if( $baby_graph_meta && isset($baby_graph_meta['unit']) ) echo $baby_graph_meta['unit']; ?></span>
+          </td>
+          <td>
+            <label for="abwbg_baby_min_<?php echo $the_id; ?>">Min</label>
+          </td>
+          <td>
+            <input type="number" step="0.01" id="abwbg_baby_min_<?php echo $the_id; ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>][min]" value="<?php if( isset($baby_measures[$the_id]['min']) ) esc_attr_e($baby_measures[$the_id]['min']) ?>" />
+            <span><?php if( $baby_graph_meta && isset($baby_graph_meta['unit']) ) echo $baby_graph_meta['unit']; ?></span>
+          </td>
+          <td>
+            <label for="abwbg_baby_max_<?php echo $the_id; ?>">Max</label>
+          </td>
+          <td>
+            <input type="number" step="0.01" id="abwbg_baby_max_<?php echo $the_id; ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>][max]" value="<?php if( isset($baby_measures[$the_id]['max']) ) esc_attr_e($baby_measures[$the_id]['max']) ?>" />
             <span><?php if( $baby_graph_meta && isset($baby_graph_meta['unit']) ) echo $baby_graph_meta['unit']; ?></span>
           </td>
         </tr>
@@ -126,9 +140,11 @@ function abwbg_save_baby_stage_meta( $post_id ){
       return;
 
   // Sanitize user input
-  foreach ( $_POST['abwbg_baby_measures'] as $key => $num) {
-    if( is_numeric($num) )
-      $baby_measures[$key] = (float) $num;
+  foreach ( $_POST['abwbg_baby_measures'] as $id => $data) {
+    foreach ($data as $interval => $num) {
+      if( is_numeric($num) )
+        $baby_measures[$id][$interval] = (float) $num;
+    }
   }
 
   update_post_meta($post_id, 'abwbg_baby_measures', $baby_measures );

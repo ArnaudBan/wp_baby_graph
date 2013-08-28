@@ -18,6 +18,8 @@ function drawChart() {
     dataTable.addColumn('date', baby_measures_data.date);
     dataTable.addColumn('number', baby_measures_data[$slug].value);
     dataTable.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+    dataTable.addColumn({type: 'number', role: 'interval'});
+    dataTable.addColumn({type: 'number', role: 'interval'});
     dataTable.addRows( measures );
 
     var data = new google.visualization.DataView(dataTable);

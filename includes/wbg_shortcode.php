@@ -14,15 +14,15 @@ function abwbg_display_baby_stage( $attr ){
 
     if( $baby_measures && is_array( $baby_measures ) ){
       $measures_table = '<table>';
-      foreach ($baby_measures as $key => $num) {
-        $baby_graph_meta = get_post_meta( $key, 'abwbg_baby_graph', true );
+      foreach ($baby_measures as $id => $num) {
+        $baby_graph_meta = get_post_meta( $id, 'abwbg_baby_graph', true );
 
         $measures_table .= '<tr>';
         $measures_table .= '<th>';
         $measures_table .= $baby_graph_meta['value'];
         $measures_table .= '</th>';
         $measures_table .= '<td>';
-        $measures_table .= $num .' '. $baby_graph_meta['unit'];
+        $measures_table .= $baby_measures[$id]['value'] .' '. $baby_graph_meta['unit'];
         $measures_table .= '</td>';
         $measures_table .= '</tr>';
       }
@@ -77,13 +77,18 @@ function abwbg_get_graphe( $id ){
       $tooltip = '<div style="padding:1px 5px;"><h2 style="font-size:1em;font-weight:bold;">' .get_the_title() .'</h2>';
       if( get_the_excerpt() != '')
         $tooltip .= get_the_excerpt() .'</br>';
-      $tooltip .=  get_the_date() . ' : <strong>' . $baby_measures[$id]. ' '. $baby_graph_meta['unit'] . '</strong></div>';
+      $tooltip .=  get_the_date() . ' : <strong>' . $baby_measures[$id]['value']. ' '. $baby_graph_meta['unit'] . '</strong>';
+      if( isset($baby_measures[$id]['min']) && isset($baby_measures[$id]['max']) )
+        $tooltip .= '[ ' .$baby_measures[$id]['min'] . ', ' .$baby_measures[$id]['max'].' ]';
+      $tooltip .= '</div>';
 
       if( isset($baby_measures[$id]) )
         $baby_measures_scripts[$id]['data'][] = array(
           get_the_date('Y,m,d'),
-          $baby_measures[$id],
-          $tooltip
+          $baby_measures[$id]['value'],
+          $tooltip,
+          $baby_measures[$id]['min'],
+          $baby_measures[$id]['max']
         );
     }
     wp_reset_postdata();
