@@ -22,7 +22,6 @@ function drawChart() {
     var colors = [];
 
     for( var i in lines ){
-      console.log(lines[i].color);
       dataTable.addColumn('number', lines[i].name);
       colors.push( lines[i].color );
     }

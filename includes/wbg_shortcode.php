@@ -94,7 +94,7 @@ function abwbg_get_graphe( $id ){
         $baby_measures_scripts[$id]['data'][$i] = array( get_the_date('Y,m,d') );
         array_push($baby_measures_scripts[$id]['data'][$i], $tooltip)  ;
         foreach ($baby_measures[$id] as $value) {
-          array_push($baby_measures_scripts[$id]['data'][$i],(int) $value);
+          array_push($baby_measures_scripts[$id]['data'][$i],(float) $value);
         }
       }
       $i++;
