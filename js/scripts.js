@@ -16,8 +16,16 @@ function drawChart() {
 
     var dataTable = new google.visualization.DataTable();
     dataTable.addColumn('date', baby_measures_data.date);
-    dataTable.addColumn('number', baby_measures_data[$slug].value);
     dataTable.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+
+    var lines = baby_measures_data[$slug].lines_info;
+    var colors = [];
+
+    for( var i in lines ){
+      console.log(lines[i].color);
+      dataTable.addColumn('number', lines[i].name);
+      colors.push( lines[i].color );
+    }
     dataTable.addRows( measures );
 
     var data = new google.visualization.DataView(dataTable);
@@ -26,16 +34,13 @@ function drawChart() {
       title: baby_measures_data[$slug].title,
       pointSize: 5,
       curveType: "function",
+      focusTarget: 'category',
+      colors: colors,
       tooltip: {isHtml: true},
       vAxis: {
         format:'#,## ' + baby_measures_data[$slug].unit
       }
     };
-
-    // Si il y a une couleur de définie on la rajout
-    if( baby_measures_data[$slug].color ){
-      options.colors = [ baby_measures_data[$slug].color ];
-    }
 
     var chart = new google.visualization.LineChart(jQuery(this)[0]);
     chart.draw(data, options);

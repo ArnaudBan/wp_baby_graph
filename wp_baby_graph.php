@@ -14,7 +14,7 @@ License: GPL2
 require_once( 'includes/wbg_shortcode.php' );
 
 // Add CPT
-require_once( 'includes/wbg_cpt_baby_graph.php' );
+require_once( 'includes/wbg_cpt_baby_chart.php' );
 require_once( 'includes/wbg_cpt_baby_stage.php' );
 
 

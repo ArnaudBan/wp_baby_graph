@@ -1,4 +1,7 @@
 
-(function($) {
-    $('#abwbg_baby_graph_color').wpColorPicker();
-})(jQuery);
+jQuery(function($) {
+
+	// Add WordPress Color picker
+  $('.line_color').wpColorPicker();
+
+});

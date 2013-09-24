@@ -69,7 +69,7 @@ function abwbg_baby_stage_metabox_content( $post ){
   $baby_measures = get_post_meta( $post->ID, 'abwbg_baby_measures', true );
 
   $all_baby_graph_args = array(
-      'post_type'       => 'baby_graph',
+      'post_type'       => 'baby_chart',
       'posts_per_page'  => -1
     );
 
@@ -82,18 +82,25 @@ function abwbg_baby_stage_metabox_content( $post ){
       while ( $all_baby_graph->have_posts() ) {
         $all_baby_graph->the_post();
 
-        $baby_graph_meta = get_post_meta( get_the_ID(), 'abwbg_baby_graph', true );
+        $baby_chart_meta = get_post_meta( get_the_ID(), 'abwbg_baby_chart', true );
         $the_id = get_the_ID();
         ?>
         <tr>
+          <th>
+              <?php echo ( $baby_chart_meta && isset($baby_chart_meta['value']) ) ? $baby_chart_meta['value'] : get_the_title(); ?>
+          </th>
           <td>
-            <label for="abwbg_baby_<?php echo $the_id; ?>">
-              <?php echo ( $baby_graph_meta && isset($baby_graph_meta['value']) ) ? $baby_graph_meta['value'] : get_the_title(); ?>
-            </label>
-          </td>
-          <td>
-            <input type="number" step="0.01" id="abwbg_baby_<?php echo $the_id; ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>]" value="<?php if( isset($baby_measures[$the_id]) ) esc_attr_e($baby_measures[$the_id]) ?>" />
-            <span><?php if( $baby_graph_meta && isset($baby_graph_meta['unit']) ) echo $baby_graph_meta['unit']; ?></span>
+            <?php
+            foreach ($baby_chart_meta['line'] as $line_id => $line) {
+              ?>
+              <p>
+                <label><?php echo $baby_chart_meta['line'][$line_id]['name'] ?></label>
+                <input type="number" step="0.01" id="abwbg_baby_<?php echo $the_id.'_'.$line_id ?>" name="abwbg_baby_measures[<?php echo $the_id; ?>][<?php echo $line_id; ?>]" value="<?php if( isset($baby_measures[$the_id][$line_id]) ) esc_attr_e($baby_measures[$the_id][$line_id]) ?>" />
+                <span><?php if( $baby_chart_meta && isset($baby_chart_meta['unit']) ) echo $baby_chart_meta['unit']; ?></span>
+              </p>
+              <?php
+            }
+            ?>
           </td>
         </tr>
         <?php
@@ -104,7 +111,7 @@ function abwbg_baby_stage_metabox_content( $post ){
 
     wp_reset_postdata();
   } else {
-    _e('Please add graph', 'baby_stage');
+    _e('Please add chart', 'baby_stage');
   }
 }
 
@@ -126,11 +133,11 @@ function abwbg_save_baby_stage_meta( $post_id ){
       return;
 
   // Sanitize user input
-  foreach ( $_POST['abwbg_baby_measures'] as $key => $num) {
-    if( is_numeric($num) )
-      $baby_measures[$key] = (float) $num;
-  }
-
+  // foreach ( $_POST['abwbg_baby_measures'] as $key => $num) {
+  //   if( is_numeric($num) )
+  //     $baby_measures[$key] = (float) $num;
+  // }
+  $baby_measures = $_POST['abwbg_baby_measures'];
   update_post_meta($post_id, 'abwbg_baby_measures', $baby_measures );
 
 }

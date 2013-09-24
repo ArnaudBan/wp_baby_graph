@@ -60,31 +60,44 @@ function abwbg_get_graphe( $id ){
   ));
 
   $baby_graph = get_post( $id );
-  $baby_graph_meta = get_post_meta( $id, 'abwbg_baby_graph', true );
+  $baby_graph_meta = get_post_meta( $id, 'abwbg_baby_chart', true );
 
   if( $all_baby_measures->have_posts() ){
 
     $baby_measures_scripts[$id]['title'] = $baby_graph->post_title;
     $baby_measures_scripts[$id]['value'] = $baby_graph_meta['value'];
     $baby_measures_scripts[$id]['unit'] = $baby_graph_meta['unit'];
-    $baby_measures_scripts[$id]['color'] = $baby_graph_meta['color'];
 
+    foreach ($baby_graph_meta['line'] as $line_id => $value) {
+        $baby_measures_scripts[$id]['lines_info'][$line_id]['name'] = $value['name'];
+        $baby_measures_scripts[$id]['lines_info'][$line_id]['color'] = $value['color'];
+    }
 
+    $i = 0;
     while ($all_baby_measures->have_posts() ) {
       $all_baby_measures->the_post();
       $baby_measures = get_post_meta( get_the_ID(), 'abwbg_baby_measures', true );
 
       $tooltip = '<div style="padding:1px 5px;"><h2 style="font-size:1em;font-weight:bold;">' .get_the_title() .'</h2>';
+
       if( get_the_excerpt() != '')
         $tooltip .= get_the_excerpt() .'</br>';
-      $tooltip .=  get_the_date() . ' : <strong>' . $baby_measures[$id]. ' '. $baby_graph_meta['unit'] . '</strong></div>';
 
-      if( isset($baby_measures[$id]) )
-        $baby_measures_scripts[$id]['data'][] = array(
-          get_the_date('Y,m,d'),
-          $baby_measures[$id],
-          $tooltip
-        );
+      $tooltip .=  get_the_date().'</br>';
+      $tooltip .= '<ul>';
+      foreach ($baby_graph_meta['line'] as $line_id => $value) {
+        $tooltip .= '<li><strong>'. $value['name'] .'</strong> : '. $baby_measures[$id][$line_id] . ' ' . $baby_graph_meta['unit'] .'</li>';
+      }
+      $tooltip .= '</ul>';
+      if( isset($baby_measures[$id]) ){
+
+        $baby_measures_scripts[$id]['data'][$i] = array( get_the_date('Y,m,d') );
+        array_push($baby_measures_scripts[$id]['data'][$i], $tooltip)  ;
+        foreach ($baby_measures[$id] as $value) {
+          array_push($baby_measures_scripts[$id]['data'][$i],(int) $value);
+        }
+      }
+      $i++;
     }
     wp_reset_postdata();
 
@@ -97,8 +110,9 @@ function abwbg_get_graphe( $id ){
 function abwbg_send_data_to_script(){
   global $baby_measures_scripts;
 
-  $baby_measures_scripts['date'] = __('date', 'baby_graph');
-  if( is_array( $baby_measures_scripts ) )
+  if( is_array( $baby_measures_scripts ) ){
+    $baby_measures_scripts['date'] = __('date', 'baby_graph');
     wp_localize_script( 'abwbg_scripts', "baby_measures_data",  $baby_measures_scripts);
+  }
 }
 add_action('wp_footer', 'abwbg_send_data_to_script');
