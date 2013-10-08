@@ -50,13 +50,13 @@ function abwbg_get_graphe( $id ){
   global $baby_measures_scripts;
 
   $all_baby_measures = new WP_Query( array(
-    'post_type'     => 'baby_stage',
-    'post_per_page' => -1,
-    'order'         => 'ASC',
-    'meta_query'    => array(
-                        'meta_value' => 'abwbg_baby_measures',
-                        'compare'    => 'EXISTS',
-                      )
+    'post_type'       => 'baby_stage',
+    'posts_per_page'  => -1,
+    'order'           => 'ASC',
+    'meta_query'      => array(
+                          'meta_value' => 'abwbg_baby_measures',
+                          'compare'    => 'EXISTS',
+                        )
   ));
 
   $baby_graph = get_post( $id );
